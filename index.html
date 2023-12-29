@@ -7,8 +7,58 @@
     <link rel="stylesheet" href="./assets/style.css" />
 </head>
 <body>
-   
-    
+    <header></header>
+
+    <main>
+        <section id="start-display">
+            <h1>Start Javascript Quiz!</h1>
+            <p>Click start and you will be presented with a series of questions. You have two minutes to answer all questions. Every question answered incorrectly will subtract 10 seconds from remaining time. </p>
+            <button id="start-quiz">Start Quiz</button>
+        </section>
+<!-- the above section is replaced with the below section once the start button is clicked -->
+        <section id="show-timer">
+            <p>You have <span id="timer">120</span> seconds left</p>
+<!-- maybe have other messages here, show #right/#wrong as it progresses? -->
+        </section>
+        
+<!-- this section should show when started, but not shown before or after quiz
+or maybe have it created dynamically-->
+        <section id="show-questions" style="display: none;">
+            <p id="questions"></p>
+            <ul>
+<!-- maybe have the answers display in random order -->
+                <li><button class="options">answer1</button></li>
+                <li><button class="options">answer2</button></li>
+                <li><button class="options">answer3</button></li>
+                <li><button class="options">answer4</button></li>
+            </ul>
+        </section>
+<!-- This section shows when the quiz is over -->
+        <section id="save-score" style="display: none;">
+            <label for="enter-initials">Enter your initials & save score:</label>
+            <input type="text" id="initials">
+            <button id="save-scorebtn">Save Score</button>
+        </section>
+<!-- Here is where user will be able to show all results (sorted by score?) or clear -->
+        <section id="show-results">
+            <button id="show-past-results">Show Past Results</button>
+            <button id="clear-results">Clear All Results</button>
+            <div id="past-results-div" style="display: none;">
+                <h2>Past Results</h2>
+                <ul id="past-results-list">
+<!-- show a list of past results, preferably sorted by score, up to last 5 results -->
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+         </section>
+    </main>
+
+    <footer></footer>
+
 <script src="./assets/script.js"></script>
 </body>
 </html>
