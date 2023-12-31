@@ -1,25 +1,10 @@
-//list variables based on html ids (might not need them all for javascri[tp-])
-// ask if document is needed here:
-// let startDisplay = document.getElementById('start-display');
 let startBtn = document.getElementById('start-btn');
-// let showTimer = document.getElementById('show-timer');
-// let timer = document.getElementById('timer');
-// let showQuestions = document.getElementById('show-questions');
-// let questions = document.getElementById('questions');
-// let options = document.querySelectorAll('options');
-// let saveScore = document.getElementById('save-score');
-// let enterInitials = document.getElementById('enter-initials');
-// let saveScoreBtn = document.getElementById('save-scorebtn');
-// let showResults = document.getElementById('show-results');
-// let showPastResults = document.getElementById('show-past-results');
-// let clearResults = document.getElementById('clear-results');
-// let pastResultsDiv = document.getElementById('past-results-div');
-// let pastResultsList = document.getElementById('past-results-list');
-
-// other variables for within javascript
 let timeLeft = 120; // 2 minutes in seconds
 let timerInterval;
 let currentQuestionIndex = 0;
+let score = 0; // Track the score
+let pastResults = [];
+
 
 const quizQuestions = [
     {
@@ -35,10 +20,8 @@ const quizQuestions = [
 
   ];
 
-  
 
-
-//Use a button, once the user clicks, a question is presented and a timer starts
+  //Use a button, once the user clicks, a question is presented and a timer starts
 //timer
 
 function updateTimer() {
@@ -77,11 +60,14 @@ function updateTimer() {
     const currentQuestion = quizQuestions[currentQuestionIndex];
 
     if (selectedIndex === currentQuestion.correctAnswer) {
-      // Handle correct answer (e.g., update score)
+      //  correct answer (e.g., update score)
       alert('Correct!');
+      score++; 
     } else {
-      // Handle incorrect answer (e.g., reduce score)
+      //  incorrect answer (e.g., reduce score)
       alert('Incorrect!');
+      score = Math.max(0, score - 1);
+      timeLeft = Math.max(0, timeLeft - 10);
     }
 
     currentQuestionIndex++;
@@ -89,16 +75,18 @@ function updateTimer() {
     if (currentQuestionIndex < quizQuestions.length) {
       showQuestion();
     } else {
-      // All questions answered, quiz is over
+      // When all questions are answered, quiz is over
       clearInterval(timerInterval);
-      alert('Quiz is over!');
-      // Optionally, you can handle what happens when the quiz is over (e.g., show results).
+      alert(`Quiz is over! Your score: ${score}`);
+      document.getElementById('show-questions').style.display = 'none';
+      document.getElementById('save-score').style.display = 'block';
     }
   }
 
   function startQuiz() {
     document.getElementById('start-btn').style.display = 'none';
     document.getElementById('show-questions').style.display = 'block';
+    document.getElementById('show-timer').style.display = 'block';
 
     // Start the timer
     timerInterval = setInterval(updateTimer, 1000);
@@ -109,7 +97,58 @@ function updateTimer() {
 
 document.getElementById('start-btn').addEventListener('click', startQuiz);
 
+// Function to save the score
+function saveScore() {
+  console.log('Save Score clicked'); // Debugging statement  
+  const initials = document.getElementById('initials').value;
 
+    // Create an object to represent the score entry
+    const scoreEntry = {
+        initials: initials,
+        score: score
+    };
+
+    // Push the score entry to the array
+    pastResults.push(scoreEntry);
+
+    // Sort the array by score in descending order
+    pastResults.sort((a, b) => b.score - a.score);
+
+    // Store the top 5 scores in local storage
+    const top5Results = pastResults.slice(0, 5);
+    localStorage.setItem('topScores', JSON.stringify(top5Results));
+
+    // Display past results
+    showPastResults();
+}
+document.getElementById('save-scorebtn').addEventListener('click', saveScore);
+document.getElementById('show-past-results').addEventListener('click', showPastResults);
+document.getElementById('clear-results').addEventListener('click', clearResults);
+
+// Function to clear all results
+function clearResults() {
+    // Clear the pastResults array and update the display
+    pastResults = [];
+    showPastResults();
+}
+
+// Function to display past results
+function showPastResults() {
+    const pastResultsList = document.getElementById('past-results-list');
+
+    // Clear existing results
+    pastResultsList.innerHTML = '';
+
+    // Display the top 5 results
+    pastResults.slice(0, 5).forEach((result, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${result.initials}: ${result.score}`;
+        pastResultsList.appendChild(listItem);
+    });
+
+    // Show the past results section
+    document.getElementById('past-results-div').style.display = 'block';
+}
 //The timer starts once button clicked (eventlistener?)
 
 // a message appears telling user to answer the questions
