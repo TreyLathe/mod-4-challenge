@@ -7,19 +7,28 @@
     <link rel="stylesheet" href="./assets/style.css" />
 </head>
 <body>
-    <header></header>
-
-    <main>
-        <section id="start-display">
-            <h1>Start Javascript Quiz!</h1>
-            <p>Click start and you will be presented with a series of questions. You have two minutes to answer all questions. Every question answered incorrectly will subtract 10 seconds from remaining time. </p>
-            <button id="start-btn">Start Quiz</button>
-        </section>
-<!-- the above section is replaced with the below section once the start button is clicked -->
+    <header>
+        <h1>Javascript Quiz!</h1>
         <section id="show-timer" style="display: none">
-            <p>You have <span id="timer"></span> seconds left</p>
+        <h2>You have <span id="timer"></span> seconds left</h2>
 <!-- maybe have other messages here, show #right/#wrong as it progresses? -->
         </section>
+    </header>
+
+    <main>
+        <section id="quiz-dir">
+            <p>Click start and you will be presented with a series of questions. You have one minute to answer all questions. Every question answered incorrectly will subtract 10 seconds from remaining time. </p>
+        </section>
+        
+        <section id="start-display">
+            <!-- <h1>Start Javascript Quiz!</h1> -->
+             <button id="start-btn">Start Quiz</button>
+        </section>
+<!-- the above section is replaced with the below section once the start button is clicked -->
+        <!-- <section id="show-timer" style="display: none"> -->
+            <!-- <p>You have <span id="timer"></span> seconds left</p> -->
+<!-- maybe have other messages here, show #right/#wrong as it progresses? -->
+        <!-- </section> -->
         
 <!-- this section should show when started, but not shown before or after quiz
 or maybe have it created dynamically-->

@@ -1,5 +1,5 @@
-let startBtn = document.getElementById('start-btn');
-let timeLeft = 120; // 2 minutes in seconds
+// let startBtn = document.getElementById('start-btn');
+let timeLeft = 60; // 1 minute in seconds
 let timerInterval;
 let currentQuestionIndex = 0;
 let score = 0; // Track the score
@@ -17,14 +17,27 @@ const quizQuestions = [
       choices: ['Document Object Model', 'Document Origin Model', 'Document Object Method', 'Document Origin Method'],
       correctAnswer: 0
     },
-
+    {
+      question: 'What does DOM stand for?',
+      choices: ['Document Object Model', 'Document Origin Model', 'Document Object Method', 'Document Origin Method'],
+      correctAnswer: 0
+    },
+    {
+      question: 'What does DOM stand for?',
+      choices: ['Document Object Model', 'Document Origin Model', 'Document Object Method', 'Document Origin Method'],
+      correctAnswer: 0
+    },
+    {
+      question: 'What does DOM stand for?',
+      choices: ['Document Object Model', 'Document Origin Model', 'Document Object Method', 'Document Origin Method'],
+      correctAnswer: 0
+    },
   ];
-
 
   //Use a button, once the user clicks, a question is presented and a timer starts
 //timer
-
 function updateTimer() {
+    console.log('Updating Timer...');
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
 
@@ -33,17 +46,23 @@ function updateTimer() {
     if (timeLeft === 0) {
       clearInterval(timerInterval);
       alert('Timer is up!');
+      saveScore()
+      alert(`Quiz is over! Your score: ${score}`);
+      document.getElementById('show-questions').style.display = 'none';
+      document.getElementById('save-score').style.display = 'block';
     } else {
       timeLeft--;
     }
   }
 
   function startTimer() {
+    console.log('Timer Started...');
     clearInterval(timerInterval);
     timerInterval = setInterval(updateTimer, 1000);
   }
 
   function showQuestion() {
+    console.log('Showing Question...');
     const currentQuestion = quizQuestions[currentQuestionIndex];
     const questionTextElement = document.getElementById('question-text');
     const choiceButtons = document.querySelectorAll('.choice-btn');
@@ -57,6 +76,7 @@ function updateTimer() {
   }
 
   function checkAnswer(selectedIndex) {
+    console.log('Checking Answer...');
     const currentQuestion = quizQuestions[currentQuestionIndex];
 
     if (selectedIndex === currentQuestion.correctAnswer) {
@@ -66,7 +86,6 @@ function updateTimer() {
     } else {
       //  incorrect answer (e.g., reduce score)
       alert('Incorrect!');
-      score = Math.max(0, score - 1);
       timeLeft = Math.max(0, timeLeft - 10);
     }
 
@@ -84,9 +103,12 @@ function updateTimer() {
   }
 
   function startQuiz() {
+    console.log('Quiz Started...');
     document.getElementById('start-btn').style.display = 'none';
+    document.getElementById('quiz-dir').style.display = 'none';
     document.getElementById('show-questions').style.display = 'block';
     document.getElementById('show-timer').style.display = 'block';
+    
 
     // Start the timer
     timerInterval = setInterval(updateTimer, 1000);
@@ -94,36 +116,38 @@ function updateTimer() {
     // Show the first question
     showQuestion();
   }
-
-document.getElementById('start-btn').addEventListener('click', startQuiz);
+  document.getElementById('save-scorebtn').addEventListener('click', saveScore);
+  document.getElementById('show-past-results').addEventListener('click', showPastResults);
+  document.getElementById('clear-results').addEventListener('click', clearResults);
+  document.getElementById('start-btn').addEventListener('click', startQuiz);
 
 // Function to save the score
 function saveScore() {
-  console.log('Save Score clicked'); // Debugging statement  
+  console.log('Save Score clicked');
+
   const initials = document.getElementById('initials').value;
 
-    // Create an object to represent the score entry
-    const scoreEntry = {
-        initials: initials,
-        score: score
-    };
+  const scoreEntry = {
+    initials: initials,
+    score: score
+  };
 
-    // Push the score entry to the array
-    pastResults.push(scoreEntry);
+  // Load existing scores from local storage
+  const storedResults = JSON.parse(localStorage.getItem('allScores')) || [];
 
-    // Sort the array by score in descending order
-    pastResults.sort((a, b) => b.score - a.score);
+  // Append the new score to the existing scores
+  storedResults.push(scoreEntry);
 
-    // Store the top 5 scores in local storage
-    const top5Results = pastResults.slice(0, 5);
-    localStorage.setItem('topScores', JSON.stringify(top5Results));
+  // Save the updated scores to local storage
+  localStorage.setItem('allScores', JSON.stringify(storedResults));
 
-    // Display past results
-    showPastResults();
+  //clear save score and intials form, clear timer
+  document.getElementById('save-score').style.display = 'none';
+  document.getElementById('show-timer').style.display = 'none';
+  //open start button section again
+  document.getElementById('start-btn').style.display = 'block';
+
 }
-document.getElementById('save-scorebtn').addEventListener('click', saveScore);
-document.getElementById('show-past-results').addEventListener('click', showPastResults);
-document.getElementById('clear-results').addEventListener('click', clearResults);
 
 // Function to clear all results
 function clearResults() {
@@ -135,15 +159,19 @@ function clearResults() {
 // Function to display past results
 function showPastResults() {
     const pastResultsList = document.getElementById('past-results-list');
-
-    // Clear existing results
+    console.log('show results clicked'); // Debugging statement 
+    // // Clear existing results
     pastResultsList.innerHTML = '';
 
-    // Display the top 5 results
-    pastResults.slice(0, 5).forEach((result, index) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${result.initials}: ${result.score}`;
-        pastResultsList.appendChild(listItem);
+    const storedResults = JSON.parse(localStorage.getItem('allScores')) || []
+    
+    //sort results by score
+    storedResults.sort((a, b) => b.score - a.score);
+
+    storedResults.forEach((result, index) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${result.initials}: ${result.score}`;
+      pastResultsList.appendChild(listItem);
     });
 
     // Show the past results section
