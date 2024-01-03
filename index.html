@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timed Javascript Quiz</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="./assets/style.css" />
 </head>
 <body>
     <header>
         <h1>Javascript Quiz!</h1>
+        <section id="quiz-dir">
+            <p>Answer Javascript questions in time quiz! Score is kept, every wrong answer removes 10 seconds from time</p>
+        </section>
         <section id="show-timer" style="display: none">
         <h2>You have <span id="timer"></span> seconds left</h2>
 <!-- maybe have other messages here, show #right/#wrong as it progresses? -->
@@ -16,22 +20,15 @@
     </header>
 
     <main>
-        <section id="quiz-dir">
-            <p>Click start and you will be presented with a series of questions. You have one minute to answer all questions. Every question answered incorrectly will subtract 10 seconds from remaining time. </p>
-        </section>
-        
         <section id="start-display">
             <!-- <h1>Start Javascript Quiz!</h1> -->
              <button id="start-btn">Start Quiz</button>
         </section>
-<!-- the above section is replaced with the below section once the start button is clicked -->
-        <!-- <section id="show-timer" style="display: none"> -->
-            <!-- <p>You have <span id="timer"></span> seconds left</p> -->
+
 <!-- maybe have other messages here, show #right/#wrong as it progresses? -->
         <!-- </section> -->
         
-<!-- this section should show when started, but not shown before or after quiz
-or maybe have it created dynamically-->
+<!-- This section shows the questions -->
         <section id="show-questions" style="display: none;">
             <h2 id="question-text"></h2>
             <ul>
@@ -43,7 +40,7 @@ or maybe have it created dynamically-->
         </section>      
 <!-- This section shows when the quiz is over -->
         <section id="save-score" style="display: none;">
-            <label for="enter-initials">Enter your initials & save score:</label>
+            <label for="enter-initials">add initials!</label>
             <input type="text" id="initials">
             <button id="save-scorebtn">Save Score</button>
         </section>

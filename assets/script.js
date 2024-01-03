@@ -3,9 +3,9 @@ let timeLeft = 60; // 1 minute in seconds
 let timerInterval;
 let currentQuestionIndex = 0;
 let score = 0; // Track the score
-let pastResults = [];
+let storedResults = [];
 
-
+//quiz questions array
 const quizQuestions = [
     {
       question: 'What is the condition in an if/else statement enclosed with?',
@@ -34,10 +34,9 @@ const quizQuestions = [
     },
   ];
 
-  //Use a button, once the user clicks, a question is presented and a timer starts
-//timer
+  // Use a button, once the user clicks, a question is presented and a timer starts
+  // timer runs out, questions are cleared, save score and initials form appears
 function updateTimer() {
-    console.log('Updating Timer...');
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
 
@@ -55,18 +54,18 @@ function updateTimer() {
     }
   }
 
+  // timer starts function
   function startTimer() {
-    console.log('Timer Started...');
     clearInterval(timerInterval);
     timerInterval = setInterval(updateTimer, 1000);
   }
 
-  function showQuestion() {
-    console.log('Showing Question...');
+// once 'start quiz' is pressed, questions show
+function showQuestion() {
     const currentQuestion = quizQuestions[currentQuestionIndex];
     const questionTextElement = document.getElementById('question-text');
     const choiceButtons = document.querySelectorAll('.choice-btn');
-
+    document.getElementById('clear-results').addEventListener('click', clearResults);
     questionTextElement.textContent = currentQuestion.question;
 
     choiceButtons.forEach((button, index) => {
@@ -75,8 +74,9 @@ function updateTimer() {
     });
   }
 
-  function checkAnswer(selectedIndex) {
-    console.log('Checking Answer...');
+//check for correct answer, modify score and time accordingly. WHen all questions answered, 
+//show score save form
+function checkAnswer(selectedIndex) {
     const currentQuestion = quizQuestions[currentQuestionIndex];
 
     if (selectedIndex === currentQuestion.correctAnswer) {
@@ -84,7 +84,7 @@ function updateTimer() {
       alert('Correct!');
       score++; 
     } else {
-      //  incorrect answer (e.g., reduce score)
+      //  incorrect answer, reduce time by 10 seconds
       alert('Incorrect!');
       timeLeft = Math.max(0, timeLeft - 10);
     }
@@ -99,17 +99,21 @@ function updateTimer() {
       alert(`Quiz is over! Your score: ${score}`);
       document.getElementById('show-questions').style.display = 'none';
       document.getElementById('save-score').style.display = 'block';
+      // //here????????? nooo....
+      // let initialsInput = document.getElementById('enter-initials');
+      // initialsInput.textContent = "Enter your initials to save your score, ${result.score}:"
     }
   }
 
-  function startQuiz() {
-    console.log('Quiz Started...');
+//WHen starting quiz, hide start button, quiz directions, show questions
+//block and questions and timer, set timer
+function startQuiz() {
+  
     document.getElementById('start-btn').style.display = 'none';
     document.getElementById('quiz-dir').style.display = 'none';
     document.getElementById('show-questions').style.display = 'block';
     document.getElementById('show-timer').style.display = 'block';
     
-
     // Start the timer
     timerInterval = setInterval(updateTimer, 1000);
 
@@ -121,10 +125,10 @@ function updateTimer() {
   document.getElementById('clear-results').addEventListener('click', clearResults);
   document.getElementById('start-btn').addEventListener('click', startQuiz);
 
-// Function to save the score
+  // Function to save the score to local storage
 function saveScore() {
   console.log('Save Score clicked');
-
+  //these next two lines add the ask text (I hope)
   const initials = document.getElementById('initials').value;
 
   const scoreEntry = {
@@ -141,18 +145,15 @@ function saveScore() {
   // Save the updated scores to local storage
   localStorage.setItem('allScores', JSON.stringify(storedResults));
 
-  //clear save score and intials form, clear timer
-  document.getElementById('save-score').style.display = 'none';
-  document.getElementById('show-timer').style.display = 'none';
-  //open start button section again
-  document.getElementById('start-btn').style.display = 'block';
-
+  location.reload()
+ 
 }
 
-// Function to clear all results
+// Function to clear all results (DOESN'T WORK!!)
 function clearResults() {
     // Clear the pastResults array and update the display
-    pastResults = [];
+    storedResults = [];
+    localStorage.setItem("allScores", JSON.stringify(storedResults))
     showPastResults();
 }
 
@@ -177,6 +178,8 @@ function showPastResults() {
     // Show the past results section
     document.getElementById('past-results-div').style.display = 'block';
 }
+
+
 //The timer starts once button clicked (eventlistener?)
 
 // a message appears telling user to answer the questions

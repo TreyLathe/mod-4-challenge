@@ -1,18 +1,28 @@
 header {
   display: flex;
   justify-content: space-around;
+  background-color: darkgoldenrod;
+}
+
+main {
+  background-color: goldenrod;
 }
 
 ul {
   list-style-type: none;
 }
 
+h1 {
+  padding: 20px;
+}
+
 p {
   font-size: 16px;
+  padding: 20px;
 }
 
 .choice-btn {
-    background-color: rgb(150, 91, 14);
+    background-color: darkgoldenrod;
     border: 5px;
     color: rgb(241, 238, 67);
     padding: 15px 15px;
@@ -29,6 +39,4 @@ p {
     color: white;
   }
 
-  ul {
-    list-style-type: none;
-  }
+
