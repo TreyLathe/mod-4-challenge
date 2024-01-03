@@ -1,4 +1,3 @@
-// let startBtn = document.getElementById('start-btn');
 let timeLeft = 60; // 1 minute in seconds
 let timerInterval;
 let currentQuestionIndex = 0;
@@ -18,24 +17,29 @@ const quizQuestions = [
       correctAnswer: 0
     },
     {
-      question: 'What does DOM stand for?',
-      choices: ['Document Object Model', 'Document Origin Model', 'Document Object Method', 'Document Origin Method'],
-      correctAnswer: 0
+      question: 'What do all escape characters (backspace, tab, etc) begin with?',
+      choices: ['#', '/', '&', '%'],
+      correctAnswer: 1
     },
     {
-      question: 'What does DOM stand for?',
-      choices: ['Document Object Model', 'Document Origin Model', 'Document Object Method', 'Document Origin Method'],
-      correctAnswer: 0
+      question: 'How are multi-line comments formated?',
+      choices: ['//comments//', '/*comments*/', '<!--comments-->', '#comments#'],
+      correctAnswer: 1
     },
     {
-      question: 'What does DOM stand for?',
-      choices: ['Document Object Model', 'Document Origin Model', 'Document Object Method', 'Document Origin Method'],
-      correctAnswer: 0
+      question: 'What does array_name.length return?',
+      choices: ['Specifies the length of the array', 'Limits the array length', 'Returns the length of the array', 'Creates a new array named length'],
+      correctAnswer: 2
+    },
+    {
+      question: 'Which is NOT as primitive type in JS?',
+      choices: ['boolean', 'undefined', 'symbol', 'integer'],
+      correctAnswer: 3
     },
   ];
 
-  // Use a button, once the user clicks, a question is presented and a timer starts
-  // timer runs out, questions are cleared, save score and initials form appears
+/* Use a button, once the user clicks, a question is presented and a timer starts
+ timer runs out, questions are cleared, save score and initials form appears*/
 function updateTimer() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
@@ -45,22 +49,24 @@ function updateTimer() {
     if (timeLeft === 0) {
       clearInterval(timerInterval);
       alert('Timer is up!');
-      saveScore()
-      alert(`Quiz is over! Your score: ${score}`);
+      
+      alert(`Quiz is over! Your score: ${score}/6 correct `);
       document.getElementById('show-questions').style.display = 'none';
+      //this is NOT WORKING
+      console.log("this is working");
       document.getElementById('save-score').style.display = 'block';
     } else {
       timeLeft--;
     }
-  }
+}
 
-  // timer starts function
-  function startTimer() {
+/* timer starts function */
+function startTimer() {
     clearInterval(timerInterval);
     timerInterval = setInterval(updateTimer, 1000);
-  }
+}
 
-// once 'start quiz' is pressed, questions show
+/* once 'start quiz' is pressed, questions show */
 function showQuestion() {
     const currentQuestion = quizQuestions[currentQuestionIndex];
     const questionTextElement = document.getElementById('question-text');
@@ -72,10 +78,10 @@ function showQuestion() {
       button.textContent = currentQuestion.choices[index];
       button.onclick = () => checkAnswer(index);
     });
-  }
+}
 
-//check for correct answer, modify score and time accordingly. WHen all questions answered, 
-//show score save form
+/*check for correct answer, modify score and time accordingly. WHen all questions answered, 
+show score save form */
 function checkAnswer(selectedIndex) {
     const currentQuestion = quizQuestions[currentQuestionIndex];
 
@@ -94,19 +100,16 @@ function checkAnswer(selectedIndex) {
     if (currentQuestionIndex < quizQuestions.length) {
       showQuestion();
     } else {
-      // When all questions are answered, quiz is over
+/* When all questions are answered, quiz is over */
       clearInterval(timerInterval);
-      alert(`Quiz is over! Your score: ${score}`);
+      alert(`Quiz is over! Your score: ${score}/6 correct`);
       document.getElementById('show-questions').style.display = 'none';
       document.getElementById('save-score').style.display = 'block';
-      // //here????????? nooo....
-      // let initialsInput = document.getElementById('enter-initials');
-      // initialsInput.textContent = "Enter your initials to save your score, ${result.score}:"
     }
-  }
+}
 
-//WHen starting quiz, hide start button, quiz directions, show questions
-//block and questions and timer, set timer
+/* WHen starting quiz, hide start button, quiz directions, show questions
+block and questions and timer, set timer */
 function startQuiz() {
   
     document.getElementById('start-btn').style.display = 'none';
@@ -119,13 +122,15 @@ function startQuiz() {
 
     // Show the first question
     showQuestion();
-  }
-  document.getElementById('save-scorebtn').addEventListener('click', saveScore);
-  document.getElementById('show-past-results').addEventListener('click', showPastResults);
-  document.getElementById('clear-results').addEventListener('click', clearResults);
-  document.getElementById('start-btn').addEventListener('click', startQuiz);
+}
 
-  // Function to save the score to local storage
+/* various eventlisteners */
+document.getElementById('save-scorebtn').addEventListener('click', saveScore);
+document.getElementById('show-past-results').addEventListener('click', showPastResults);
+document.getElementById('clear-results').addEventListener('click', clearResults);
+document.getElementById('start-btn').addEventListener('click', startQuiz);
+
+/* Function to save the score to local storage */
 function saveScore() {
   console.log('Save Score clicked');
   //these next two lines add the ask text (I hope)
@@ -149,7 +154,7 @@ function saveScore() {
  
 }
 
-// Function to clear all results (DOESN'T WORK!!)
+/* Function to clear all results (DOESN'T WORK!!)*/
 function clearResults() {
     // Clear the pastResults array and update the display
     storedResults = [];
@@ -157,7 +162,7 @@ function clearResults() {
     showPastResults();
 }
 
-// Function to display past results
+/* Function to display past results */
 function showPastResults() {
     const pastResultsList = document.getElementById('past-results-list');
     console.log('show results clicked'); // Debugging statement 
@@ -169,7 +174,19 @@ function showPastResults() {
     //sort results by score
     storedResults.sort((a, b) => b.score - a.score);
 
-    storedResults.forEach((result, index) => {
+  /*USE this code and comment out below code if you want all scores 
+     to save rather than the top 5
+      storedResults.forEach((result, index) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${result.initials}: ${result.score}`;
+      pastResultsList.appendChild(listItem);
+     });
+  */
+   
+    // change '5' here to another number if want different # of scores saved
+    const limitedResults = storedResults.slice(0, 5);
+
+    limitedResults.forEach((result, index) => {
       const listItem = document.createElement('li');
       listItem.textContent = `${result.initials}: ${result.score}`;
       pastResultsList.appendChild(listItem);
@@ -180,20 +197,20 @@ function showPastResults() {
 }
 
 
-//The timer starts once button clicked (eventlistener?)
+/*The timer starts once button clicked (eventlistener?)
 
-// a message appears telling user to answer the questions
+ a message appears telling user to answer the questions
 
-// a) Presented with question and multiple choice answers
-//    buttons change/highlight on hover
-// b) If click correct answer, a counter ++ adds to the correct count (goes to local storage)
-// c) if click correct answer an alert button (or html text?) says the answer is correct
+a) Presented with question and multiple choice answers
+    buttons change/highlight on hover
+ b) If click correct answer, a counter ++ adds to the correct count (goes to local storage)
+ c) if click correct answer an alert button (or html text?) says the answer is correct
 
-// d) else, if incorrect answer, an alert button says answer is wrong and counter ++ adds to wrong count
+ d) else, if incorrect answer, an alert button says answer is wrong and counter ++ adds to wrong count
 
-//once the  question is answered, goes to the next question and repeats a-d
+once the  question is answered, goes to the next question and repeats a-d
 
-//when timer runs out, quiz over
-//when all questions answered, quiz over
+when timer runs out, quiz over
+when all questions answered, quiz over
 
-//when quiz is over, score is presented for local storage, initials are requested and shown.
+when quiz is over, score is presented for local storage, initials are requested and shown. */
