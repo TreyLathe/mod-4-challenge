@@ -3,6 +3,7 @@ let timerInterval;
 let currentQuestionIndex = 0;
 let score = 0; // Track the score
 let storedResults = [];
+let correctAnswerCount = 0; //variable for correct answer count
 
 //quiz questions array
 const quizQuestions = [
@@ -48,12 +49,15 @@ function updateTimer() {
 
     if (timeLeft === 0) {
       clearInterval(timerInterval);
-      alert('Timer is up!');
+      // alert('Timer is up!');
+      const messageDiv = document.getElementById('messages');
+      messageDiv.textContent = 'Time is up!';
       
-      alert(`Quiz is over! Your score: ${score}/6 correct `);
+      const scoreDiv = document.getElementById('score-message');
+      scoreDiv.textContent = `Quiz is over! Your score: ${score}/6`;
+
+      // alert(`Quiz is over! Your score: ${score}/6 correct `);
       document.getElementById('show-questions').style.display = 'none';
-      //this is NOT WORKING
-      console.log("this is working");
       document.getElementById('save-score').style.display = 'block';
     } else {
       timeLeft--;
@@ -86,15 +90,22 @@ function checkAnswer(selectedIndex) {
     const currentQuestion = quizQuestions[currentQuestionIndex];
 
     if (selectedIndex === currentQuestion.correctAnswer) {
-      //  correct answer (e.g., update score)
-      alert('Correct!');
+      // Update correct answer count
+      correctAnswerCount++;
+      // Update the HTML element to display the current correct answer count
+      document.getElementById('correct-count').textContent = correctAnswerCount;//  correct answer (e.g., update score)
+      //correct answer message
+      const messageDiv = document.getElementById('messages');
+      messageDiv.textContent = 'Correct!';
       score++; 
+
     } else {
       //  incorrect answer, reduce time by 10 seconds
-      alert('Incorrect!');
+      const messageDiv = document.getElementById('messages');
+      messageDiv.textContent = 'Sorry, incorrect!';
       timeLeft = Math.max(0, timeLeft - 10);
     }
-
+    
     currentQuestionIndex++;
 
     if (currentQuestionIndex < quizQuestions.length) {
@@ -102,7 +113,10 @@ function checkAnswer(selectedIndex) {
     } else {
 /* When all questions are answered, quiz is over */
       clearInterval(timerInterval);
-      alert(`Quiz is over! Your score: ${score}/6 correct`);
+      // alert(`Quiz is over! Your score: ${score}/6 correct`);
+      const scoreDiv = document.getElementById('score-message');
+      scoreDiv.textContent = `Quiz is over! Your score: ${score}/6`;
+
       document.getElementById('show-questions').style.display = 'none';
       document.getElementById('save-score').style.display = 'block';
       document.getElementById('past-results-div').style.display = 'none';
@@ -134,8 +148,7 @@ document.getElementById('start-btn').addEventListener('click', startQuiz);
 
 /* Function to save the score to local storage */
 function saveScore() {
-  console.log('Save Score clicked');
-  //these next two lines add the ask text (I hope)
+  
   const initials = document.getElementById('initials').value;
 
   const scoreEntry = {

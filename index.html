@@ -16,6 +16,7 @@
         </section>
         <section id="show-timer" style="display: none">
         <h2>You have <span id="timer"></span> seconds left</h2>
+        <h2><span id="correct-count">0</span> correct answers so far!</h2>
 <!-- maybe have other messages here, show #right/#wrong as it progresses? -->
         </section>
     </header>
@@ -37,7 +38,11 @@
                 <li><button class="choice-btn"></button></li>
                 <li><button class="choice-btn"></button></li>
             </ul>
-        </section>      
+        </section>
+<!-- This section is for showing messages -->
+        <section id="messages"></section>  
+<!-- This section is for showing score -->
+        <section id="score-message"></section>  
 <!-- This section shows when the quiz is over -->
         <section id="save-score" style="display: none;">
             <label for="enter-initials">Add your initials and save score!</label>

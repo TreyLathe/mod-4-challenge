@@ -46,7 +46,6 @@ THEN I am presented with another question
 
 ** After answering question, the next question in an array is presented with multiple choice answers. 
 
-> WHEN I answer a question incorrectly
 THEN time is subtracted from the clock
 
 **If answer is correct, an alert informs them. If the answer is incorrect, an alert informs them and 10 seconds is subtracted from the timer. 
