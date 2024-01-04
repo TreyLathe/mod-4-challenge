@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timed Javascript Quiz</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="./assets/style.css" />
 </head>
@@ -14,10 +13,11 @@
         <section id="quiz-dir">
             <p>Answer Javascript questions in time quiz! Score is kept, every wrong answer removes 10 seconds from time</p>
         </section>
+
+<!-- this section shows time left and correct answer count. -->
         <section id="show-timer" style="display: none">
-        <h2>You have <span id="timer"></span> seconds left</h2>
-        <h2><span id="correct-count">0</span> correct answers so far!</h2>
-<!-- maybe have other messages here, show #right/#wrong as it progresses? -->
+            <h2>You have <span id="timer"></span> seconds left</h2>
+            <h2><span id="correct-count">0</span> correct answers so far!</h2>
         </section>
     </header>
 
@@ -26,9 +26,6 @@
              <button type="button" id="start-btn">Start Quiz</button>
         </section>
 
-<!-- maybe have other messages here, show #right/#wrong as it progresses? -->
-      
-        
 <!-- This section shows the questions -->
         <section id="show-questions" style="display: none;">
             <h2 id="question-text"></h2>
@@ -39,24 +36,28 @@
                 <li><button class="choice-btn"></button></li>
             </ul>
         </section>
+
 <!-- This section is for showing messages -->
         <section id="messages"></section>  
+
 <!-- This section is for showing score -->
         <section id="score-message"></section>  
+
 <!-- This section shows when the quiz is over -->
         <section id="save-score" style="display: none;">
             <label for="enter-initials">Add your initials and save score!</label>
             <input type="text" id="initials">
             <button id="save-scorebtn">Save Score</button>
         </section>
+
 <!-- Here is where user will be able to show all results or clear -->
         <section id="show-results">
             <button id="show-past-results">Show Top 5 Scores</button>
             <button id="clear-results">Clear All Saved Scores</button>
+<!-- show a list of past results, preferably sorted by score, up to last 5 results -->
             <div id="past-results-div" style="display: none;">
                 <h2>Past Results</h2>
                 <ul id="past-results-list">
-<!-- show a list of past results, preferably sorted by score, up to last 5 results -->
                 </ul>
             </div>
          </section>
