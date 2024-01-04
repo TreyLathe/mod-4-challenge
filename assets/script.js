@@ -105,6 +105,7 @@ function checkAnswer(selectedIndex) {
       alert(`Quiz is over! Your score: ${score}/6 correct`);
       document.getElementById('show-questions').style.display = 'none';
       document.getElementById('save-score').style.display = 'block';
+      document.getElementById('past-results-div').style.display = 'none';
     }
 }
 
@@ -114,6 +115,7 @@ function startQuiz() {
   
     document.getElementById('start-btn').style.display = 'none';
     document.getElementById('quiz-dir').style.display = 'none';
+    document.getElementById('past-results-div').style.display = 'none';
     document.getElementById('show-questions').style.display = 'block';
     document.getElementById('show-timer').style.display = 'block';
     
@@ -165,7 +167,6 @@ function clearResults() {
 /* Function to display past results */
 function showPastResults() {
     const pastResultsList = document.getElementById('past-results-list');
-    console.log('show results clicked'); // Debugging statement 
     // // Clear existing results
     pastResultsList.innerHTML = '';
 
